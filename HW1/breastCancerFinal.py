@@ -31,4 +31,4 @@ result = model.fit()
 #Prediction
 predict = result.predict(test)
 y_prediction = [1 if x > 0.5 else 0 for x in predict]
-print( accuracy_score(y_prediction, test['Class']) )
+print( 'Accuracy:' ,accuracy_score(y_prediction, test['Class'])*100)
