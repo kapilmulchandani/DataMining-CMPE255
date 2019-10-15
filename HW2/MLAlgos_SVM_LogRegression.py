@@ -6,18 +6,10 @@ import numpy as np
 from sklearn import preprocessing
 from sklearn.linear_model import LogisticRegression
 
+# Get Data
 adultCensusdata = pd.read_csv('adult.csv')
-#
-# print("age ", adultCensusdata['age'].unique())
-# print("workclass ", adultCensusdata['workclass'].unique())
-# print("education ", adultCensusdata['education'].unique())
-# print("marital.status ", adultCensusdata['marital.status'].unique())
-# print("occupation ", adultCensusdata['occupation'].unique())
-# print("relationship ", adultCensusdata['relationship'].unique())
-# print("race ", adultCensusdata['race'].unique())
-# print("sex ", adultCensusdata['sex'].unique())
-# print("native.country ", adultCensusdata['native.country'].unique())
 
+# Convert to Numeric from Strings
 labelEncoder = preprocessing.LabelEncoder()
 adultCensusdata['workclass'] = labelEncoder.fit_transform(adultCensusdata['workclass'])
 adultCensusdata['education'] = labelEncoder.fit_transform(adultCensusdata['education'])
@@ -29,14 +21,14 @@ adultCensusdata['sex'] = labelEncoder.fit_transform(adultCensusdata['sex'])
 adultCensusdata['native.country'] = labelEncoder.fit_transform(adultCensusdata['native.country'])
 adultCensusdata['income'] = labelEncoder.fit_transform(adultCensusdata['income'])
 
+# Features and Classes
 X = adultCensusdata.drop(['income'], axis=1)
 Y = adultCensusdata['income']
 
-# encoded_values = labelEncoder.fit_transform(adultCensusdata['income'])
-
-# print(encoded_values)
+# Train Test Split
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=20)
 
+# Normalization
 X_train_min = X_train.min()
 X_train_max = X_train.max()
 X_train_range = (X_train_max - X_train_min)
@@ -46,9 +38,9 @@ X_test_min = X_test.min()
 X_test_range = (X_test - X_test_min).max()
 X_test_scaled = (X_test - X_test_min)/X_test_range
 
+# SVM Model
 svc_model = SVC()
 svc_model.fit(X_train, Y_train)
-
 predict = svc_model.predict(X_test)
 cm = np.array(confusion_matrix(Y_test, predict, labels=[0, 1]))
 print("SVM Model")
@@ -58,9 +50,10 @@ print('Precision: ', precision_score(predict, Y_test)*100)
 print('Classification Report: ', classification_report(predict, Y_test))
 print()
 print('*************************************')
+
+# Logistic Regression Model
 logistic_model = LogisticRegression()
 logistic_model.fit(X_train, Y_train)
-
 predict_logistic = logistic_model.predict(X_test)
 cm_logistic = np.array(confusion_matrix(Y_test, predict_logistic, labels=[0,1]))
 print("Logistic Regression Model")
