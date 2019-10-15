@@ -1,9 +1,10 @@
 from sklearn.model_selection import train_test_split
 import pandas as pd
 from sklearn.svm import SVC
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+from sklearn.metrics import precision_score, accuracy_score, confusion_matrix, classification_report
 import numpy as np
 from sklearn import preprocessing
+from sklearn.linear_model import LogisticRegression
 
 adultCensusdata = pd.read_csv('adult.csv')
 #
@@ -26,11 +27,13 @@ adultCensusdata['relationship'] = labelEncoder.fit_transform(adultCensusdata['re
 adultCensusdata['race'] = labelEncoder.fit_transform(adultCensusdata['race'])
 adultCensusdata['sex'] = labelEncoder.fit_transform(adultCensusdata['sex'])
 adultCensusdata['native.country'] = labelEncoder.fit_transform(adultCensusdata['native.country'])
+adultCensusdata['income'] = labelEncoder.fit_transform(adultCensusdata['income'])
 
 X = adultCensusdata.drop(['income'], axis=1)
 Y = adultCensusdata['income']
 
-encoded_values = labelEncoder.fit_transform(["<=50k", ">50k"])
+# encoded_values = labelEncoder.fit_transform(adultCensusdata['income'])
+
 # print(encoded_values)
 X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=20)
 
@@ -47,5 +50,21 @@ svc_model = SVC()
 svc_model.fit(X_train, Y_train)
 
 predict = svc_model.predict(X_test)
-cm = np.array(confusion_matrix(Y_test, predict, labels=['0', '1']))
+cm = np.array(confusion_matrix(Y_test, predict, labels=[0, 1]))
+print("SVM Model")
 print(cm)
+print( 'Accuracy: ' ,accuracy_score(predict, Y_test)*100)
+print('Precision: ', precision_score(predict, Y_test)*100)
+print('Classification Report: ', classification_report(predict, Y_test))
+print()
+print('*************************************')
+logistic_model = LogisticRegression()
+logistic_model.fit(X_train, Y_train)
+
+predict_logistic = logistic_model.predict(X_test)
+cm_logistic = np.array(confusion_matrix(Y_test, predict_logistic, labels=[0,1]))
+print("Logistic Regression Model")
+print(cm_logistic)
+print( 'Accuracy: ' ,accuracy_score(predict_logistic, Y_test)*100)
+print('Precision: ', precision_score(predict_logistic, Y_test)*100)
+print('Classification Report: ', classification_report(predict_logistic, Y_test))
