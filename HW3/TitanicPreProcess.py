@@ -5,14 +5,17 @@ import matplotlib.pyplot as plt
 
 training_set = pd.read_csv('train.csv')
 test_set = pd.read_csv('test.csv')
-
-print(training_set.isnull().sum())
-print(test_set.isnull().sum())
-
+training_set.sort_values(["Name", "Cabin"], axis=0,
+                 ascending=True, inplace=True)
+training_set=training_set.fillna(method='bfill', axis=0)
+training_set=training_set.fillna(method='ffill', axis=0)
+test_set=training_set.fillna(method='bfill', axis=0)
 cabin_list = ['A', 'B', 'C', 'D', 'E', 'F', 'T', 'G', 'Unknown']
 
 def search_substring(big_string, substring_list):
     for substring in substring_list:
+        # print(training_set.isnull().sum())
+        # print(test_set.isnull().sum())
         if substring in big_string:
             return substring
     return substring_list[-1]
