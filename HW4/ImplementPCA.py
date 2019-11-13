@@ -1,5 +1,6 @@
 from sklearn.datasets import load_wine
 import pandas as pd
+import chart_studio.plotly as py
 
 wine_data = load_wine()
 wine_df = pd.DataFrame(wine_data.data, columns=wine_data.feature_names)
@@ -13,3 +14,47 @@ cov_mat = (scaled_features - mean_vec).T.dot((scaled_features - mean_vec)) / (sc
 
 cov_mat = np.cov(scaled_features.T)
 eig_vals, eig_vecs = np.linalg.eig(cov_mat)
+
+eig_pairs = [(np.abs(eig_vals[i]), eig_vecs[:,i]) for i in range(len(eig_vals))]
+eig_pairs.sort()
+eig_pairs.reverse()
+
+tot = sum(eig_vals)
+var_exp = [(i / tot)*100 for i in sorted(eig_vals, reverse=True)]
+cum_var_exp = np.cumsum(var_exp)
+list1 = var_exp
+trace1 = dict(
+    type='bar',
+    x=['PC %s' %i for i in range(1,5)],
+    y=var_exp,
+    name='Individual'
+)
+
+trace2 = dict(
+    type='scatter',
+    x=['PC %s' %i for i in range(1,5)],
+    y=cum_var_exp,
+    name='Cumulative'
+)
+
+data = [trace1, trace2]
+
+layout=dict(
+    title='Explained variance by different principal components',
+    yaxis=dict(
+        title='Explained variance in percent'
+    ),
+    annotations=list([
+        dict(
+            x=1.16,
+            y=1.05,
+            xref='paper',
+            yref='paper',
+            text='Explained Variance',
+            showarrow=False,
+        )
+    ])
+)
+
+fig = dict(data=data, layout=layout)
+py.iplot(fig, filename='selecting-principal-components')
