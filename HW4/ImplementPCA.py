@@ -1,6 +1,7 @@
 from sklearn.datasets import load_wine
 import pandas as pd
 import chart_studio.plotly as ply
+import matplotlib.pylab as plt
 
 wine_data = load_wine()
 wine_df = pd.DataFrame(wine_data.data, columns=wine_data.feature_names)
@@ -57,5 +58,14 @@ layout=dict(
 )
 
 fig = dict(data=data, layout=layout)
-ply.iplot(fig, filename='selecting-principal-components')
+print(trace1['x'])
+print(trace1['y'])
+y_pos = np.arange(len(trace1['y']))
+plt.bar(y_pos, trace1['y'], align='center')
+plt.xticks(y_pos, trace1['x'])
+
+# x, y = zip(*data) # unpack a list of pairs into two tuples
+# plt.plot(x, y)
+plt.show()
+# ply.iplot(fig, filename='selecting-principal-components')
 # ply.offline.plot(fig, filename='selecting-principal-components')
