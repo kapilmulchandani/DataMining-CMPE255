@@ -1,6 +1,6 @@
 from sklearn.datasets import load_wine
 import pandas as pd
-import chart_studio.plotly as py
+import chart_studio.plotly as ply
 
 wine_data = load_wine()
 wine_df = pd.DataFrame(wine_data.data, columns=wine_data.feature_names)
@@ -25,14 +25,14 @@ cum_var_exp = np.cumsum(var_exp)
 list1 = var_exp
 trace1 = dict(
     type='bar',
-    x=['PC %s' %i for i in range(1,5)],
+    x=['PC %s' %i for i in range(1,14)],
     y=var_exp,
     name='Individual'
 )
 
 trace2 = dict(
     type='scatter',
-    x=['PC %s' %i for i in range(1,5)],
+    x=['PC %s' %i for i in range(1,14)],
     y=cum_var_exp,
     name='Cumulative'
 )
@@ -57,4 +57,5 @@ layout=dict(
 )
 
 fig = dict(data=data, layout=layout)
-py.iplot(fig, filename='selecting-principal-components')
+ply.iplot(fig, filename='selecting-principal-components')
+# ply.offline.plot(fig, filename='selecting-principal-components')
