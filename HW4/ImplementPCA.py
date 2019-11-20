@@ -1,6 +1,5 @@
 from sklearn.datasets import load_wine
 import pandas as pd
-import chart_studio.plotly as ply
 import matplotlib.pylab as plt
 
 wine_data = load_wine()
@@ -13,12 +12,13 @@ import numpy as np
 mean_vec = np.mean(scaled_features, axis=0)
 cov_mat = (scaled_features - mean_vec).T.dot((scaled_features - mean_vec)) / (scaled_features.shape[0]-1)
 
-cov_mat = np.cov(scaled_features.T)
+# cov_mat = np.cov(scaled_features.T)
 eig_vals, eig_vecs = np.linalg.eig(cov_mat)
 
 eig_pairs = [(np.abs(eig_vals[i]), eig_vecs[:,i]) for i in range(len(eig_vals))]
 eig_pairs.sort()
 eig_pairs.reverse()
+
 
 tot = sum(eig_vals)
 var_exp = [(i / tot)*100 for i in sorted(eig_vals, reverse=True)]
@@ -58,14 +58,9 @@ layout=dict(
 )
 
 fig = dict(data=data, layout=layout)
-print(trace1['x'])
-print(trace1['y'])
 y_pos = np.arange(len(trace1['y']))
 plt.bar(y_pos, trace1['y'], align='center')
 plt.xticks(y_pos, trace1['x'])
 
-# x, y = zip(*data) # unpack a list of pairs into two tuples
-# plt.plot(x, y)
 plt.show()
-# ply.iplot(fig, filename='selecting-principal-components')
-# ply.offline.plot(fig, filename='selecting-principal-components')
+
