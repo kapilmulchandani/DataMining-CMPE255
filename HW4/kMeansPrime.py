@@ -6,8 +6,7 @@ firstTenPrimes = [[2,3], [5,7], [11,13], [17,19], [23,29], [31,37], [41,43], [47
 givenCentroid1 = [2,3]
 givenCentroid2 = [5,7]
 
-newCentroids1 = [0, 0]
-newCentroids2 = [0, 0]
+
 
 cluster1=[]
 cluster2=[]
@@ -26,8 +25,10 @@ for i in range(0, len(firstTenPrimes)):
     else:
         cluster2.append(firstTenPrimes[i])
 
-count = 5
+count = 8
 while count != 0:
+    newCentroids1 = [0, 0]
+    newCentroids2 = [0, 0]
     for i in range(0, len(cluster1)):
         newCentroids1[0] = newCentroids1[0] + cluster1[i][0]
         newCentroids1[1] = newCentroids1[1] + cluster1[i][1]
@@ -61,4 +62,5 @@ while count != 0:
             cluster2.append(firstTenPrimes[i])
     count = count-1
 
-
+print(cluster1)
+print(cluster2)
