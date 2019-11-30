@@ -4,10 +4,7 @@ firstTenPrimes = [[2,3], [5,7], [11,13], [17,19], [23,29], [31,37], [41,43], [47
 
 # Just change the centroid for the second part [[2,3], [67,71]]
 givenCentroid1 = [2,3]
-givenCentroid2 = [5,7]
-
-
-
+givenCentroid2 = [67,71]
 cluster1=[]
 cluster2=[]
 
@@ -25,7 +22,7 @@ for i in range(0, len(firstTenPrimes)):
     else:
         cluster2.append(firstTenPrimes[i])
 
-count = 8
+count = 10
 while count != 0:
     newCentroids1 = [0, 0]
     newCentroids2 = [0, 0]

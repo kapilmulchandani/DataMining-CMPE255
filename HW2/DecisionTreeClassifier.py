@@ -34,7 +34,7 @@ dot_data = StringIO()
 export_graphviz(decisionTree, out_file=dot_data)
 (graph, ) = graph_from_dot_data(dot_data.getvalue())
 Image(graph.create_png())
-graph.write_pdf("iris.pdf")
+graph.write_pdf("dtree.pdf")
 
 species = np.array(Y_test)
 predictions = np.array(y_pred)
