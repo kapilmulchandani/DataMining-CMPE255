@@ -67,6 +67,8 @@ def cosineSimilarity():
         sumOfSquares += (queryTF[i] - databaseTF[i]) ** 2
     euclideanDistance = math.sqrt(sumOfSquares)
 
+    euclidSimilarity = (100-(euclideanDistance*22))/100
+
     queryVectorMagnitude = 0
     for i in range(len(queryTF)):
         queryVectorMagnitude += queryTF[i] ** 2
